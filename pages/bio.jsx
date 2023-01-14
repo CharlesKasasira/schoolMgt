@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Heading from "../components/Heading"
 
-function bio() {
+function Bio() {
   return (
     <Layout title="Profile - School">
       <Heading title="Student Bio" tagline="Manage Student Bio" />
@@ -10,4 +10,4 @@ function bio() {
   );
 }
 
-export default bio;
+export default Bio;

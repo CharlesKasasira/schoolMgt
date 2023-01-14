@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { supabase } from "@/utils/supabase";
 import Router from "next/router";
 
-const LoginForm = () => {
+const Login = () => {
   const { setSession } = useAuth();
   const [cookie, setCookie] = useCookies(["user"]);
 
@@ -120,4 +120,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

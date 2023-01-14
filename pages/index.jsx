@@ -23,25 +23,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-export const getServerSideProps = async ({ req, res }) => {
-  // console.log(req)
-  // const person = await parseCookies(req);
-  // if (res) {
-  //   if (!person.user) {
-  //     return {
-  //       redirect: {
-  //         permanent: false,
-  //         destination: "/login",
-  //       },
-  //       props: {},
-  //     };
-  //   }
-  // }
-
-  return {
-    props: {
-      // person,
-    },
-  };
-};
