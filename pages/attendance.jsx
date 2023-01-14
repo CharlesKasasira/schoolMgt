@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Heading from "../components/Heading";
 
-function attendance() {
+function Attendance() {
   return (
     <Layout title="Attendance - School">
       <Heading title="Attendance" tagline="Manage Attendance" />
@@ -10,4 +10,4 @@ function attendance() {
   );
 }
 
-export default attendance;
+export default Attendance;

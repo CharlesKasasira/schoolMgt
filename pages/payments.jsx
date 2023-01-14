@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Heading from "../components/Heading"
 
-function payments() {
+function Payments() {
   return (
     <Layout title="Payments - School">
       <Heading title="Payments" tagline="Manage your payments" />
@@ -10,4 +10,4 @@ function payments() {
   );
 }
 
-export default payments;
+export default Payments;

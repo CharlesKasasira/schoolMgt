@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Heading from "../components/Heading";
 
-function logs() {
+function Logs() {
   return (
     <Layout title="Logs - School">
       <Heading title="Logs" tagline="Manage Logs" />
@@ -10,4 +10,4 @@ function logs() {
   );
 }
 
-export default logs;
+export default Logs;

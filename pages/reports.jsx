@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Heading from "../components/Heading";
 
-function reports() {
+function Reports() {
   return (
     <Layout title="Report - School">
       <Heading title="Reports" tagline="Mange your reports" />
@@ -10,4 +10,4 @@ function reports() {
   );
 }
 
-export default reports;
+export default Reports;

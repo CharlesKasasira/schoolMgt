@@ -8,7 +8,7 @@ import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
 
-function students() {
+function Students() {
   const router = useRouter();
   const [teachers, setTeachers] = useState([]);
   useEffect(() => {

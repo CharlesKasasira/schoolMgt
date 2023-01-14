@@ -4,18 +4,7 @@ import { Formik, Form } from "formik";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
-function addTeacher() {
-  const addNewTeacher = (event, values, resetForm) => {
-    console.log(values);
-    resetForm({
-      password: "",
-      first_name: "",
-      last_name: "",
-      claim: "admin",
-      email: "",
-      phone_number: "",
-    });
-  };
+function AddTeacher() {
   return (
     <Layout title="Add Teacher - School">
       <ToastContainer />
@@ -78,10 +67,7 @@ function addTeacher() {
             return (
               <Form className="my-5">
                 <div className="flex flex-col my-3">
-                  <label
-                    htmlFor="email"
-                    className="mb-1 w-4/12 md:w-2/12"
-                  >
+                  <label htmlFor="email" className="mb-1 w-4/12 md:w-2/12">
                     Email
                   </label>
                   <div className="w-12/12 md:w-8/12">
@@ -99,10 +85,7 @@ function addTeacher() {
                   </div>
                 </div>
                 <div className="flex flex-col my-3">
-                  <label
-                    htmlFor=""
-                    className="mb-1 w-4/12 md:w-2/12"
-                  >
+                  <label htmlFor="" className="mb-1 w-4/12 md:w-2/12">
                     First Name
                   </label>
                   <div className="w-12/12 md:w-8/12">
@@ -119,10 +102,7 @@ function addTeacher() {
                   </div>
                 </div>
                 <div className="flex flex-col my-3">
-                  <label
-                    htmlFor=""
-                    className="mb-1 w-4/12 md:w-2/12"
-                  >
+                  <label htmlFor="" className="mb-1 w-4/12 md:w-2/12">
                     Last Name
                   </label>
                   <div className="w-12/12 md:w-8/12">
@@ -167,45 +147,12 @@ function addTeacher() {
                     </select>
                   </div>
                 </div>
-                {/* <PasswordGenerator
-                  password={password}
-                  setPassword={setPassword}
-                  resize={true}
-                /> */}
 
                 <div className="flex my-3 md:my-5">
                   <button
                     type="submit"
                     className="text-white py-2 px-4 my-2 mt-4  bg-[#0e927a] hover:bg-[#0e8c75] outline outline-1 outline-[#0e927a] gap-2 w-12/12 md:w-8/12 rounded-sm"
                   >
-                    {/* {loading && (
-                      <svg
-                        className="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                      </svg>
-                    )} */}
-                    {/* {!loading && ( */}
-                    {/* <i>
-                        <TbSend />
-                      </i> */}
-                    {/* )} */}
-                    {/* {loading ? "Loading" : "Submit"} */}
                     Submit
                   </button>
                 </div>
@@ -218,4 +165,4 @@ function addTeacher() {
   );
 }
 
-export default addTeacher;
+export default AddTeacher;
