@@ -24,6 +24,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "utils/auth.js", "utils/supabase.js", "pages/_app.jsx", "components/Layout.jsx", "components/NavLink.jsx", "components/SideMenu.jsx", "utils/menuData.js", "pages/_document.jsx", "pages/teachers.jsx", "pages/index.jsx", "pages/login.jsx", "pages/attendance.jsx", "pages/bio.jsx", "pages/logs.jsx", "pages/payments.jsx", "pages/reports.jsx"],
   "exclude": ["node_modules"]
 }
