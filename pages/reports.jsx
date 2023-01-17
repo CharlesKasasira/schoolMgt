@@ -4,13 +4,12 @@ import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
 import ReportModal from "../components/ReportModal";
 import { IoIosArrowDown } from "react-icons/io";
-import { useAuth } from "../utils/auth";
+import { parseCookies } from "../utils/parseCookies";
 
-function Reports() {
+function Reports({ person }) {
   const [showReport, setShowReport] = useState(false);
   const [report, setReport] = useState(null);
   const [myReports, setMyReports] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     getReports();
@@ -21,7 +20,7 @@ function Reports() {
     const { data, error } = await supabase
       .from("report")
       .select("*")
-      .eq("student", user.id)
+      .eq("student", JSON.parse(person.user).user.id)
       .order("year", { ascending: false });
     if (data) {
       console.log(data);
@@ -165,19 +164,20 @@ function Reports() {
 
 export default Reports;
 
-// export async function getServerSideProps({ req }) {
-//   const { user } = await supabase.auth.api.getUserByCookie(req);
+export async function getServerSideProps({ req, res }) {
+  const person = parseCookies(req);
+  if (res) {
+    if (!person.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+        props: {},
+      };
+    }
+  }
 
-//   if (!user) {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/login",
-//       },
-//       props: {},
-//     };
-//   }
-
-//   // If there is a user, return it.
-//   return { props: { user } };
-// }
+  // If there is a user, return it.
+  return { props: { person } };
+}

@@ -5,10 +5,15 @@ import { supabase } from "../utils/supabase";
 import Router from "next/router";
 import Link from "next/link";
 import { useAuth } from "../utils/auth";
+import { useCookies } from "react-cookie";
 
-function SideMenu() {
+function SideMenu({ person }) {
   const [activeIndex, setActiveIndex] = useState(null);
-  // const { user, signOut } = useAuth();
+  const [cookie, setCookie, removeCookie] = useCookies(["user"]);
+
+  const { user, signOut } = useAuth();
+
+  console.log(user?.user_metadata.claim);
 
   return (
     <div className="w-full h-full relative">
@@ -16,7 +21,7 @@ function SideMenu() {
         <p className="text-lg font-medium">School</p>
       </header>
       <ul className="mt-5">
-        {menuData[`student`]?.map((menuItem, index) => (
+        {menuData[`${user?.user_metadata.claim}`]?.map((menuItem, index) => (
           <NavLink
             name={menuItem.label}
             icon={menuItem.icon}
@@ -32,16 +37,18 @@ function SideMenu() {
         <div className="w-10 h-10 rounded-full bg-gray-400 flex justify-center items-center text-xs text-white">
           CK
         </div>
-        {/* <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center">
           <p className="text-sm">
             {user?.user_metadata?.last_name} {user?.user_metadata?.first_name}
           </p>
-          <p className="text-xs text-gray-400">{user?.user_metadata?.claim}</p>
-        </div> */}
+          <p className="text-xs text-gray-400 uppercase">{user?.user_metadata?.claim}</p>
+        </div>
         <button
           className="px-3 py-2 bg-[#0b7a66] rounded text-white text-xs w-full"
           onClick={() => {
-            // signOut();
+            supabase.auth.signOut();
+            removeCookie("user");
+            Router.push("/login");
           }}
         >
           <Link href="/login">Sign Out</Link>
@@ -52,21 +59,3 @@ function SideMenu() {
 }
 
 export default SideMenu;
-
-export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-
-  if (!user) {
-    // If no user, redirect to index.
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/login",
-      },
-      props: {},
-    };
-  }
-
-  // If there is a user, return it.
-  return { props: { user } };
-}

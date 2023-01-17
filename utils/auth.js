@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
   const [cookie, setCookie, removeCookie] = useCookies(["user"]);
   const [welcome, setWelcome] = useState(true);
-  const [role, setRole] = useState("admin");
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -61,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    axios.post("/api/set-supabase-cookie", {
+    axios.post("/api/auth", {
       event: user ? "SIGNED_IN" : "SIGNED_OUT",
       session: supabase.auth.session(),
     });
@@ -93,7 +92,6 @@ export const AuthProvider = ({ children }) => {
     session,
     setSession,
     user,
-    role,
     loading,
     setLoading,
     welcome,

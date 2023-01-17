@@ -7,19 +7,17 @@ import { toast } from "react-toastify";
 import { supabase } from "../utils/supabase";
 import Router from "next/router";
 import Head from "next/head";
-import { parseCookies } from "../utils/parseCookies";
 import Spinner from "../components/Spinner";
 import { MdOutlineError } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { parseCookies } from "../utils/parseCookies";
 
 const Login = ({ user }) => {
-  // const { setSession } = useAuth();
+  const { setSession } = useAuth();
   const [cookie, setCookie] = useCookies(["user"]);
   const [showPassword, togglePassword] = useState(false);
 
   const toastId = useRef(null);
-
-  console.log("there is:", user);
 
   return (
     <>
@@ -72,7 +70,7 @@ const Login = ({ user }) => {
                   position: "top-right",
                 });
 
-                // setSession(session);
+                setSession(session);
                 resetForm({ email: "", password: "" });
                 setCookie(
                   "user",
@@ -186,30 +184,9 @@ const Login = ({ user }) => {
 
 export default Login;
 
-// export const getServerSideProps = async ({ req, res }) => {
-//   const userData = parseCookies(req);
-
-//   if (userData?.user) {
-//     // If no user, redirect to index.
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/",
-//       },
-//       props: {},
-//     };
-//   }
-
-//   return {
-//     props: {},
-//   };
-// };
-
-export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-
-  if (user) {
-    // If no user, redirect to index.
+export async function getServerSideProps({ req, res }) {
+  const person = parseCookies(req);
+  if (person?.user) {
     return {
       redirect: {
         permanent: false,
@@ -220,5 +197,5 @@ export async function getServerSideProps({ req }) {
   }
 
   // If there is a user, return it.
-  return { props: { user } };
+  return { props: {} };
 }

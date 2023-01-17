@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Head from "next/head";
 import { supabase } from "../utils/supabase";
+import { parseCookies } from "../utils/parseCookies";
 
 function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -48,11 +49,9 @@ function ResetPassword() {
 
 export default ResetPassword;
 
-export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-
-  if (user) {
-    // If no user, redirect to index.
+export async function getServerSideProps({ req, res }) {
+  const person = parseCookies(req);
+  if (person?.user) {
     return {
       redirect: {
         permanent: false,
@@ -63,5 +62,5 @@ export async function getServerSideProps({ req }) {
   }
 
   // If there is a user, return it.
-  return { props: { user } };
+  return { props: { person } };
 }

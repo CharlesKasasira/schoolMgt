@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
-import Heading from "../components/Heading"
+import Heading from "../components/Heading";
 import { supabase } from "../utils/supabase";
+import { parseCookies } from "../utils/parseCookies";
 
 function Payments() {
   return (
@@ -13,19 +14,20 @@ function Payments() {
 
 export default Payments;
 
-// export async function getServerSideProps({ req }) {
-//   const { user } = await supabase.auth.api.getUserByCookie(req);
+export async function getServerSideProps({ req, res }) {
+  const person = parseCookies(req);
+  if (res) {
+    if (!person.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+        props: {},
+      };
+    }
+  }
 
-//   if (!user) {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/login",
-//       },
-//       props: {},
-//     };
-//   }
-
-//   // If there is a user, return it.
-//   return { props: { user } };
-// }
+  // If there is a user, return it.
+  return { props: { person } };
+}

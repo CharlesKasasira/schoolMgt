@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { useAuth } from "../utils/auth";
 import { supabase } from "../utils/supabase";
 
-function Layout({ children, user, ...customProps }) {
+function Layout({ children,...customProps }) {
   const meta = {
     title: "School",
     description: "School Management system.",
@@ -33,21 +33,3 @@ function Layout({ children, user, ...customProps }) {
 }
 
 export default Layout;
-
-export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-
-  if (!user) {
-    // If no user, redirect to index.
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/login",
-      },
-      props: {},
-    };
-  }
-
-  // If there is a user, return it.
-  return { props: { user } };
-}

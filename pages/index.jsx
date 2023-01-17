@@ -2,12 +2,12 @@ import Layout from "../components/Layout";
 import Heading from "../components/Heading";
 // import { useAuth } from "../utils/auth";
 import AdminDash from "../components/AdminDash";
-// import parseCookies from "../utils/parseCookies";
-// import { supabase } from "../utils/supabase";
+import { parseCookies } from "../utils/parseCookies";
 
-function Dashboard() {
-  // const { role } = useAuth();
+function Dashboard({ person }) {
   const role = "admin";
+
+  console.log("person: ", JSON.parse(person.user).user.user_metadata.claim);
 
   if (role === "admin") {
     return (
@@ -21,20 +21,33 @@ function Dashboard() {
 
 export default Dashboard;
 
-// export async function getServerSideProps({ req }) {
-//   const { user } = await supabase.auth.api.getUserByCookie(req);
+export async function getServerSideProps({ req, res }) {
+  const person = parseCookies(req);
+  if (res) {
+    if (!person.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+        props: {},
+      };
+    }
 
-//   if (!user) {
-//     // If no user, redirect to index.
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/login",
-//       },
-//       props: {},
-//     };
-//   }
+    if (
+      person &&
+      JSON.parse(person.user).user.user_metadata.claim === "student"
+    ) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/reports",
+        },
+        props: {},
+      };
+    }
+  }
 
-//   // If there is a user, return it.
-//   return { props: { user } };
-// }
+  // If there is a user, return it.
+  return { props: { person } };
+}
