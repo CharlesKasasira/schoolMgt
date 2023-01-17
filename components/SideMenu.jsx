@@ -41,14 +41,14 @@ function SideMenu({ person }) {
           <p className="text-sm">
             {user?.user_metadata?.last_name} {user?.user_metadata?.first_name}
           </p>
-          <p className="text-xs text-gray-400 uppercase">{user?.user_metadata?.claim}</p>
+          <p className="text-xs text-gray-400 uppercase">
+            {user?.user_metadata?.claim}
+          </p>
         </div>
         <button
           className="px-3 py-2 bg-[#0b7a66] rounded text-white text-xs w-full"
           onClick={() => {
-            supabase.auth.signOut();
-            removeCookie("user");
-            Router.push("/login");
+            signOut();
           }}
         >
           <Link href="/login">Sign Out</Link>
