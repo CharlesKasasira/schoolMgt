@@ -12,7 +12,7 @@ import { CiEdit } from "react-icons/ci";
 import { supabase } from "../../utils/supabase";
 import { parseCookies } from "../../utils/parseCookies";
 
-function TeachersList() {
+function TeachersList({ schoolTeachers }) {
   const router = useRouter();
   const [teachers, setTeachers] = useState([]);
   const [clickedIndex, setClickedIndex] = useState(null);
@@ -20,11 +20,21 @@ function TeachersList() {
   const [openToggle, setOpenToggle] = useState(false);
 
   useEffect(() => {
-    getTeachers();
+    fetchTeachers();
     return () => {};
   }, []);
   const getTeachers = () => {
     setTeachers(teachersData);
+  };
+
+  const fetchTeachers = async () => {
+    const { data, error } = await supabase
+      .from("usermeta")
+      .select("*")
+      .eq("claim", "teacher");
+    if (data) {
+      setTeachers(data);
+    }
   };
 
   // if (window !== undefined) {
@@ -112,8 +122,9 @@ function TeachersList() {
             </tr>
           </thead>
           <tbody>
-            {teachers?.length > 0 &&
-              teachers.map((teacher, index) => (
+            {schoolTeachers &&
+              schoolTeachers?.length > 0 &&
+              schoolTeachers.map((teacher, index) => (
                 <tr
                   className={`border-b border-l-2 border-l-transparent hover:border-l-[#0b7a66] cursor-pointer mb-10 text-sm`}
                   key={index}
@@ -213,6 +224,11 @@ export async function getServerSideProps({ req, res }) {
     }
   }
 
+  const { data: schoolTeachers, error } = await supabase
+    .from("usermeta")
+    .select("*")
+    .eq("claim", "teacher");
+
   // If there is a user, return it.
-  return { props: { person } };
+  return { props: { person, schoolTeachers } };
 }

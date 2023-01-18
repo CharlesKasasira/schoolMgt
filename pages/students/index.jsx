@@ -12,7 +12,7 @@ import { CiEdit } from "react-icons/ci";
 import { supabase } from "../../utils/supabase";
 import { parseCookies } from "../../utils/parseCookies";
 
-function Students() {
+function Students({ schoolStudents }) {
   const router = useRouter();
   const [teachers, setTeachers] = useState([]);
   const [clickedIndex, setClickedIndex] = useState(null);
@@ -103,8 +103,8 @@ function Students() {
             </tr>
           </thead>
           <tbody>
-            {teachers?.length > 0 &&
-              teachers.map((teacher, index) => (
+            {schoolStudents?.length > 0 &&
+              schoolStudents.map((teacher, index) => (
                 <tr
                   className={`border-b border-l-2 border-l-transparent hover:border-l-[#0b7a66] cursor-pointer mb-10 text-sm`}
                   key={index}
@@ -204,6 +204,11 @@ export async function getServerSideProps({ req, res }) {
     }
   }
 
+  const { data: schoolStudents, error } = await supabase
+    .from("usermeta")
+    .select("*")
+    .eq("claim", "student");
+
   // If there is a user, return it.
-  return { props: { person } };
+  return { props: { person, schoolStudents } };
 }

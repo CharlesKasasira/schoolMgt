@@ -13,15 +13,24 @@ function Teacher() {
   const [teacher, setTeacher] = useState({});
 
   useEffect(() => {
-    getTeachers();
+    getTeacher();
 
     return () => {};
   }, []);
   console.log(teacher);
 
-  const getTeachers = () => {
-    const singleTeacher = teachersData.filter((teacher) => teacher.id === id);
-    setTeacher(singleTeacher[0]);
+  const getTeacher = async () => {
+    // const singleTeacher = teachersData.filter((teacher) => teacher.id === id);
+    // setTeacher(singleTeacher[0]);
+    const { data, error } = await supabase
+      .from("usermeta")
+      .select("*")
+      .eq("claim", "teacher")
+      .eq("id", id)
+      .single();
+    if (data) {
+      setTeacher(data);
+    }
   };
 
   return (
@@ -30,7 +39,11 @@ function Teacher() {
         title={teacher && `${teacher.first_name + " " + teacher.last_name}`}
         tagline="Manage teachers"
       />
-      <div>Teacher {id}</div>
+      <main>
+        <div>Full Name: {teacher.last_name + " " + teacher.first_name}</div>
+        <div>Phone Number: {teacher.phone_number}</div>
+        <div>Nationality: {teacher.nationality}</div>
+      </main>
     </Layout>
   );
 }

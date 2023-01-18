@@ -124,6 +124,7 @@ const Login = ({ user }) => {
           }) => {
             return (
               <Form className="">
+                <h1 className="text-center text-2xl font-medium mb-5">Welcome Back</h1>
                 <div className="mb-4">
                   <label
                     className="block text-gray-700 font-medium mb-2"

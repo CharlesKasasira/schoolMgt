@@ -6,7 +6,7 @@ import Heading from "../../components/Heading";
 import { supabase } from "../../utils/supabase";
 import { parseCookies } from "../../utils/parseCookies";
 
-function Teacher() {
+function Teacher({ student }) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -17,27 +17,41 @@ function Teacher() {
 
     return () => {};
   }, []);
-  console.log(teacher);
 
-  const getTeachers = () => {
-    const singleTeacher = teachersData.filter((teacher) => teacher.id === id);
-    setTeacher(singleTeacher[0]);
+  const getTeachers = async () => {
+    // const singleTeacher = teachersData.filter((teacher) => teacher.id === id);
+    // setTeacher(singleTeacher[0]);
+
+    const { data, error } = await supabase
+      .from("usermeta")
+      .select("*")
+      .eq("claim", "student")
+      .eq("id", id)
+      .single();
+    if (data) {
+      setTeacher(data);
+    }
   };
 
   return (
     <Layout>
       <Heading
-        title={teacher && `${teacher.first_name + " " + teacher.last_name}`}
+        title={student && `${student.first_name + " " + student.last_name}`}
         tagline="Manage students"
       />
-      <div>Student {id}</div>
+      <main>
+        <div>Full Name: {student.last_name + " " + student.first_name}</div>
+        <div>Phone Number: {student.phone_number}</div>
+        <div>Nationality: {student.nationality}</div>
+      </main>
     </Layout>
   );
 }
 
 export default Teacher;
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, params }) {
+  console.log(params);
   const person = parseCookies(req);
   if (res) {
     if (!person.user) {
@@ -51,6 +65,13 @@ export async function getServerSideProps({ req, res }) {
     }
   }
 
+  const { data: student, error } = await supabase
+    .from("usermeta")
+    .select("*")
+    .eq("claim", "student")
+    .eq("id", params.id)
+    .single();
+
   // If there is a user, return it.
-  return { props: { person } };
+  return { props: { person, student } };
 }

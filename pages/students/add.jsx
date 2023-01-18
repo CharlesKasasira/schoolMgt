@@ -11,7 +11,7 @@ function AddStudent() {
     <Layout title="Add Student - School">
       <ToastContainer />
       <Heading title="Add Student" tagline="Register a new student" />
-      <section className="mt-10 text-md text-[#555b6d]">
+      <section className="mt-10 px-10 pt-5 text-md text-[#555b6d]">
         <Formik
           initialValues={{
             password: "changeit",
@@ -19,12 +19,21 @@ function AddStudent() {
             last_name: "",
             claim: "admin",
             email: "",
+            gender: "",
+            nationality: "",
             phone_number: "",
           }}
           onSubmit={async (values, { resetForm }) => {
             // addNewTeacher(event, values, resetForm);
-            const { email, first_name, last_name, contact_number, password } =
-              values;
+            const {
+              email,
+              first_name,
+              last_name,
+              contact_number,
+              password,
+              gender,
+              nationality,
+            } = values;
             await axios
               .post("/api/add-user", {
                 email: email,
@@ -35,6 +44,8 @@ function AddStudent() {
                   email: email,
                   phone_number: "256" + contact_number,
                   claim: "student",
+                  gender: gender,
+                  nationality: nationality,
                 },
               })
               .then((res) =>
@@ -52,6 +63,8 @@ function AddStudent() {
               claim: "student",
               email: "",
               phone_number: "",
+              gender: "",
+              nationality: "",
             });
           }}
           // validationSchema={addCustomerValidationSchema}
@@ -121,6 +134,40 @@ function AddStudent() {
                   </div>
                 </div>
                 <div className="flex flex-col my-3">
+                  <label htmlFor="" className="mb-1 w-4/12 md:w-2/12">
+                    Gender
+                  </label>
+                  <div className="w-12/12 md:w-8/12">
+                    <input
+                      type="text"
+                      name="text"
+                      className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                      placeholder="Enter gender"
+                      onChange={handleChange("gender")}
+                      onBlur={handleBlur("gender")}
+                      value={values.gender}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col my-3">
+                  <label htmlFor="" className="mb-1 w-4/12 md:w-2/12">
+                    Nationality
+                  </label>
+                  <div className="w-12/12 md:w-8/12">
+                    <input
+                      type="text"
+                      name="text"
+                      className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                      placeholder="Enter nationality"
+                      onChange={handleChange("nationality")}
+                      onBlur={handleBlur("nationality")}
+                      value={values.nationality}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col my-3">
                   <label
                     htmlFor="telephone_number"
                     className="mb-1 w-4/12 md:w-2/12"
@@ -149,11 +196,6 @@ function AddStudent() {
                     </select>
                   </div>
                 </div>
-                {/* <PasswordGenerator
-                  password={password}
-                  setPassword={setPassword}
-                  resize={true}
-                /> */}
 
                 <div className="flex my-3 md:my-5">
                   <button
