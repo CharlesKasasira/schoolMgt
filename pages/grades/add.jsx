@@ -169,7 +169,7 @@ function AddGrades({ students }) {
                       </tr>
                       {students &&
                         students.map((student, index) => (
-                          <tr>
+                          <tr key={index}>
                             <td className="py-4 pl-2 text-left text-gray-500">
                               {student.first_name + " " + student.last_name}
                             </td>
