@@ -8,6 +8,7 @@ import { HiOutlineCash } from "react-icons/hi";
 import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { AiOutlineInbox } from "react-icons/ai";
+import { FiPaperclip } from "react-icons/fi";
 
 export const menuData = {
   system: [
@@ -26,6 +27,8 @@ export const menuData = {
       icon: <MdOutlineCalendarToday />,
       link: "/attendance",
     },
+    { label: "Students", icon: <IoPeopleOutline />, link: "/students" },
+    { label: "Grades", icon: <FiPaperclip />, link: "/grades" },
     { label: "Settings", icon: <IoSettingsOutline />, link: "/settings" },
   ],
   student: [

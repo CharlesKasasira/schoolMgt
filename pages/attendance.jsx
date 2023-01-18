@@ -19,13 +19,15 @@ function Attendance() {
   const { user } = useAuth();
 
   const getAttendance = async () => {
-    const { data: attendance, error } = await supabase
-      .from("attendance")
-      .select("*")
-      .eq("user", user.id)
-      .order("created_at", { ascending: false });
+    if (user) {
+      const { data: attendance, error } = await supabase
+        .from("attendance")
+        .select("*")
+        .eq("user", user?.id)
+        .order("created_at", { ascending: false });
 
-    setAttendance(attendance);
+      setAttendance(attendance);
+    }
   };
 
   const handleCheckin = async () => {
