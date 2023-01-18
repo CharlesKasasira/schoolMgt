@@ -13,8 +13,6 @@ function SideMenu({ person }) {
 
   const { user, signOut } = useAuth();
 
-  console.log(user?.user_metadata.claim);
-
   return (
     <div className="w-full h-full relative">
       <header className="h-12 flex justify-center items-center">

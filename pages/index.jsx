@@ -6,15 +6,14 @@ import { parseCookies } from "../utils/parseCookies";
 import { supabase } from "../utils/supabase";
 
 function Dashboard({ person, schoolStudents, schoolTeachers }) {
-  const role = "admin";
-
-  console.log("person: ", JSON.parse(person.user).user.user_metadata.claim);
-
-  if (role === "admin") {
+  if (JSON.parse(person.user)?.user?.user_metadata.claim === "admin") {
     return (
       <Layout title="Dashboard - School">
         <Heading title="Dashboard" tagline="Welcome to the School Management" />
-        <AdminDash students={schoolStudents.length} teachers={schoolTeachers.length} />
+        <AdminDash
+          students={schoolStudents.length}
+          teachers={schoolTeachers.length}
+        />
       </Layout>
     );
   }
@@ -43,6 +42,17 @@ export async function getServerSideProps({ req, res }) {
         redirect: {
           permanent: false,
           destination: "/reports",
+        },
+        props: {},
+      };
+    } else if (
+      person &&
+      JSON.parse(person.user).user.user_metadata.claim === "teacher"
+    ) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/attendance",
         },
         props: {},
       };

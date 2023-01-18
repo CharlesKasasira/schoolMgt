@@ -1,12 +1,7 @@
-import React from "react";
 import SideMenu from "./SideMenu";
 import Head from "next/head";
-import { parseCookies } from "../utils/parseCookies";
-import { ToastContainer } from "react-toastify";
-import { useAuth } from "../utils/auth";
-import { supabase } from "../utils/supabase";
 
-function Layout({ children,...customProps }) {
+function Layout({ children, ...customProps }) {
   const meta = {
     title: "School",
     description: "School Management system.",
@@ -21,7 +16,6 @@ function Layout({ children,...customProps }) {
         <meta content={meta.description} name="description" />
         <meta property="og:type" content={meta.type} />
       </Head>
-      <ToastContainer />
       <main className="flex w-screen h-screen">
         <aside className="h-screen w-52 bg-[#fafcfe]">
           <SideMenu role="admin" />

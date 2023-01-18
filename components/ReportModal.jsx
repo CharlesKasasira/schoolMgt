@@ -2,7 +2,6 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { BsPrinterFill } from "react-icons/bs";
 
 function ReportModal({ setShowReport, report }) {
-  console.log(report);
 
   return (
     <div
@@ -24,7 +23,7 @@ function ReportModal({ setShowReport, report }) {
           </div>
           <main id="printSection" className="w-full">
             <div className="px-4 py-4">
-              <h2>School Name</h2>
+              <h2>Passion Care Schools</h2>
               <p>Address</p>
             </div>
             <div className="px-4 py-4">

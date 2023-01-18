@@ -4,7 +4,6 @@ import { supabase } from "../utils/supabase";
 import { parseCookies } from "../utils/parseCookies";
 
 function Settings({ person }) {
-  console.log(person)
   return (
     <Layout title="Settings - School">
       <Heading title="Settings" tagline="Customize your settings" />

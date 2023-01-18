@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 import ReportModal from "../components/ReportModal";
 import { IoIosArrowDown } from "react-icons/io";
 import { parseCookies } from "../utils/parseCookies";
+import { ImFilesEmpty } from "react-icons/im";
 
-function Reports({ person }) {
+function Reports({ person, reports }) {
   const [showReport, setShowReport] = useState(false);
   const [report, setReport] = useState(null);
   const [myReports, setMyReports] = useState([]);
@@ -37,9 +38,8 @@ function Reports({ person }) {
         <ReportModal setShowReport={setShowReport} report={report} />
       )}
       <div className="">
-        {myReports &&
-          myReports.length > 0 &&
-          myReports.map((report, index) => (
+        {reports && reports.length > 0 ? (
+          reports.map((report, index) => (
             <div
               key={index}
               className="outline outline-1 outline-gray-300 px-3 py-2 cursor-pointer flex justify-between items-center"
@@ -53,110 +53,17 @@ function Reports({ person }) {
               </p>
               <IoIosArrowDown />
             </div>
-          ))}
-        {/* <div className="outline outline-1 px-3 py-2 cursor-pointer flex justify-between items-center">
-          <p>2023</p>
-          <IoIosArrowDown />
-        </div>
-        <ul className="px-10 py-2">
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 1, year: 2023 });
-              setShowReport(true);
-            }}
-          >
-            Term 1
-          </li>
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 2, year: 2023 });
-              setShowReport(true);
-            }}
-          >
-            Term 2
-          </li>
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 3, year: 2023 });
-              setShowReport(true);
-            }}
-          >
-            Term 3
-          </li>
-        </ul>
-      </div>
-      <div className="">
-        <div className="outline outline-1 px-3 py-2 cursor-pointer flex justify-between items-center">
-          <p>2022</p>
-          <IoIosArrowDown />
-        </div>
-        <ul className="px-10 py-2">
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 1, year: 2022 });
-              setShowReport(true);
-            }}
-          >
-            Term 1
-          </li>
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 2, year: 2022 });
-              setShowReport(true);
-            }}
-          >
-            Term 2
-          </li>
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 3, year: 2022 });
-              setShowReport(true);
-            }}
-          >
-            Term 3
-          </li>
-        </ul>
-      </div>
-      <div className="">
-        <div className="outline outline-1 px-3 py-2 cursor-pointer flex justify-between items-center">
-          <p>2021</p>
-          <IoIosArrowDown />
-        </div>
-        <ul className="px-10 py-2">
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 1, year: 2021 });
-              setShowReport(true);
-            }}
-          >
-            Term 1
-          </li>
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 2, year: 2021 });
-              setShowReport(true);
-            }}
-          >
-            Term 2
-          </li>
-          <li
-            className="cursor-pointer"
-            onClick={() => {
-              setReport({ term: 3, year: 2021 });
-              setShowReport(true);
-            }}
-          >
-            Term 3
-          </li>
-        </ul> */}
+          ))
+        ) : (
+          <div className="flex px-5 py-5 flex-col items-center justify-center gap-3">
+            <i>
+              <ImFilesEmpty size={40} />
+            </i>
+            <div className="text-sm text-center">
+              <h4>No Reports</h4>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
@@ -164,7 +71,7 @@ function Reports({ person }) {
 
 export default Reports;
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, params }) {
   const person = parseCookies(req);
   if (res) {
     if (!person.user) {
@@ -178,6 +85,12 @@ export async function getServerSideProps({ req, res }) {
     }
   }
 
+  const { data: reports, error } = await supabase
+    .from("report")
+    .select("*")
+    .eq("student", JSON.parse(person.user).user.id)
+    .order("year", { ascending: false });
+
   // If there is a user, return it.
-  return { props: { person } };
+  return { props: { person, reports } };
 }
