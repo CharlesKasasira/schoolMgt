@@ -32,8 +32,8 @@ export const menuData = {
     { label: "Settings", icon: <IoSettingsOutline />, link: "/settings" },
   ],
   student: [
-    { label: "Payments", icon: <HiOutlineCash />, link: "/payments" },
     { label: "Reports", icon: <TbReportSearch />, link: "/reports" },
+    { label: "Payments", icon: <HiOutlineCash />, link: "/payments" },
     { label: "Bio Data", icon: <IoPersonOutline />, link: "/bio" },
   ],
 };
