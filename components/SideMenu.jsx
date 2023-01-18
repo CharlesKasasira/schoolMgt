@@ -33,7 +33,8 @@ function SideMenu({ person }) {
       </ul>
       <div className="outline outline-1 outline-gray-300 rounded mx-4 px-3 py-2 bottom-2 absolute w-[80%] flex flex-col items-center gap-2">
         <div className="w-10 h-10 rounded-full bg-gray-400 flex justify-center items-center text-xs text-white">
-          CK
+          {user?.user_metadata?.last_name[0].toUpperCase() +
+            user?.user_metadata?.first_name[0].toUpperCase()}
         </div>
         <div className="flex flex-col items-center">
           <p className="text-sm">
