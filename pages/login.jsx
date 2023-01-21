@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import { useAuth } from "../utils/auth";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
@@ -11,18 +11,21 @@ import Spinner from "../components/Spinner";
 import { MdOutlineError } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { parseCookies } from "../utils/parseCookies";
+import { BiHide, BiShow } from "react-icons/bi";
+import { loginSchema } from "../utils/validators";
+import { MdErrorOutline } from "react-icons/md";
 
-const Login = ({ user }) => {
+const Login = () => {
   const { setSession } = useAuth();
   const [cookie, setCookie] = useCookies(["user"]);
-  const [showPassword, togglePassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const toastId = useRef(null);
 
   return (
     <>
       <Head>
-        <title>Login - School Management System</title>
+        <title>Welcome - School Management System</title>
       </Head>
       <div className="w-screen h-screen flex justify-center items-center">
         <Formik
@@ -31,12 +34,6 @@ const Login = ({ user }) => {
             email: "",
           }}
           onSubmit={async (values, { resetForm }) => {
-            // toast.info("signing in", {
-            //   position: "top-right",
-            //   hideProgressBar: true,
-            //   autoClose: false,
-            //   icon: <Spinner />,
-            // });
             if (toastId.current === null) {
               toastId.current = toast.info("signing in", {
                 position: "top-right",
@@ -45,9 +42,6 @@ const Login = ({ user }) => {
                 icon: <Spinner />,
               });
             }
-            // } else {
-            //   toast.update(toastId.current, { progress });
-            // }
             const { email, password } = values;
             try {
               const { user, session, error } = await supabase.auth.signIn({
@@ -84,8 +78,6 @@ const Login = ({ user }) => {
                 Router.push("/");
               }
               if (error) {
-                // toast.done(toastId.current);
-                // toast.error(`${error?.message}`, { position: "top-right" });
                 toast.update(toastId.current, {
                   render: `${error?.message}`,
                   icon: <MdOutlineError size={20} color="red" />,
@@ -110,7 +102,7 @@ const Login = ({ user }) => {
               email: "",
             });
           }}
-          // validationSchema={addCustomerValidationSchema}
+          validationSchema={loginSchema}
         >
           {({
             values,
@@ -123,51 +115,90 @@ const Login = ({ user }) => {
             setFieldValue,
           }) => {
             return (
-              <Form className="">
-                <h1 className="text-center text-2xl font-medium mb-5">Welcome Back</h1>
-                <div className="mb-4">
-                  <label
-                    className="block text-gray-700 font-medium mb-2"
-                    htmlFor="email"
-                  >
-                    Email
-                  </label>
-                  <input
-                    className="border border-gray-400 px-3 py-2 w-full rounded bg-transparent"
-                    type="email"
-                    id="email"
-                    value={values.email}
-                    placeholder="Enter email"
-                    onChange={handleChange("email")}
-                  />
-                </div>
-                <div className="mb-6">
-                  <label
-                    className="block text-gray-700 font-medium mb-2"
-                    htmlFor="password"
-                  >
-                    Password
-                  </label>
-                  <div className="w-full relative">
+              <Form className="md:w-72">
+                <h1 className="text-center text-2xl font-medium mb-5">
+                  Welcome Back
+                </h1>
+                <div className="mt-3 mb-3 w-full">
+                  <div className="mt-10 mb-1 relative w-full flex flex-col">
                     <input
-                      className="border border-gray-400 px-3 py-2 w-full rounded bg-transparent"
+                      type="email"
+                      id="email"
+                      className="block px-2.5 pb-2.5 pt-4 w-full border-[#b1b5bb] text-gray-900 bg-transparent rounded-sm appearance-none focus:outline-none peer focus:ring-0 focus:border-black border-[.9px] focus:border-[1px]"
+                      required
+                      placeholder=" "
+                      name="email"
+                      onChange={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                    />
+
+                    <label
+                      htmlFor="email"
+                      className="absolute duration-300 transform -translate-y-4 scale-95 top-2 z-10 text-gray-500 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-95 peer-focus:-translate-y-4 left-1 pointer-events-none"
+                    >
+                      Email
+                    </label>
+                  </div>
+                  <ErrorMessage name="email">
+                    {(msg) => (
+                      <div className="text-xs text-red-500 text-left w-full mb-2">
+                        <p className="flex items-center gap-1">
+                          <MdErrorOutline />
+                          {msg}
+                        </p>
+                      </div>
+                    )}
+                  </ErrorMessage>
+                </div>
+
+                <div className="mt-3 mb-3 w-full">
+                  <div className="relative mb-1 w-full flex flex-col">
+                    <input
                       type={showPassword ? "text" : "password"}
                       id="password"
-                      value={values.password}
-                      placeholder="Enter password"
+                      className="block px-2.5 pb-2.5 pt-4 w-full border-[#b1b5bb] text-gray-900 bg-transparent rounded-sm appearance-none focus:outline-none peer focus:ring-0 focus:border-black border-[.9px] focus:border-[1px]"
+                      required
+                      placeholder=" "
+                      name="password"
                       onChange={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
                     />
-                    <span
-                      className="absolute right-2 top-2 text-sm cursor-pointer text-gray-500"
-                      onClick={() => togglePassword((prev) => !prev)}
+
+                    <i
+                      className="absolute right-2.5 top-[20%] cursor-pointer hover:bg-gray-100 px-1 py-1 font-light rounded text-gray-600"
+                      onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? "hide" : "show"}
-                    </span>
+                      {showPassword ? (
+                        <BiHide color="#b1b5bb" size={20} />
+                      ) : (
+                        <BiShow color="#b1b5bb" size={20} />
+                      )}
+                    </i>
+
+                    <label
+                      htmlFor="password"
+                      className="absolute text-gray-500 duration-300 transform -translate-y-4 scale-95 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-95 peer-focus:-translate-y-4 left-1 pointer-events-none"
+                    >
+                      Password
+                    </label>
                   </div>
+                  <ErrorMessage name="password">
+                    {(msg) => (
+                      <div className="text-xs text-red-500 text-left w-full mb-2">
+                        <p className="flex items-center gap-1">
+                          <MdErrorOutline />
+                          {msg}
+                        </p>
+                      </div>
+                    )}
+                  </ErrorMessage>
                 </div>
+
                 <button
                   type="submit"
-                  className="bg-[#0e927a] hover:bg-[#0e8c75] text-white p-2 rounded w-full"
+                  className="bg-[#10a37f] hover:bg-[#0e8c75] text-white p-2 rounded-sm w-full"
                 >
                   Login
                 </button>

@@ -1,17 +1,130 @@
 import Layout from "../../components/Layout";
 import Heading from "../../components/Heading";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, FieldArray } from "formik";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { supabase } from "../../utils/supabase";
 import { parseCookies } from "../../utils/parseCookies";
 
 function AddGrades({ students }) {
+  const initialValues = [
+    {
+      uuid: "Charles Kasasira",
+      first_name: "Charles",
+      last_name: "Kasasira",
+      math: "",
+      math: "",
+      english: "",
+      science: "",
+      average: "",
+      grade: "",
+      sst: "",
+      term: "",
+      set: "",
+      year: "",
+    },
+  ];
   return (
     <Layout title="Add Grades - School">
       <ToastContainer />
       <Heading title="Add Grades" tagline="Register a new exam set" />
       <section className="mt-10 px-10 pt-5 text-md text-[#555b6d]">
+        <Formik
+          initialValues={{ students: initialValues }}
+          onSubmit={(values) => {
+            console.log(values);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            isValid,
+            dirty,
+            handleChange,
+            handleBlur,
+            setFieldValue,
+          }) => {
+            return (
+              <Form>
+                <FieldArray
+                  // name="students"
+                  render={(arrayHelpers) => (
+                    <div className="">
+                      {values.students && values.students.length > 0 ? (
+                        values.students.map((student, index) => (
+                          <div key={index} className="flex justify-between">
+                            <label htmlFor="">
+                              {student.first_name + " " + student.last_name}
+                            </label>
+                            <Field
+                              name={`math-${index}`}
+                              value={student.math}
+                              className="outline outline-1 p-1 w-10 rounded-sm"
+                              onChange={handleChange(`math-${index}`)}
+                              onBlur={handleBlur(`math-${index}`)}
+                            />
+                            <Field
+                              name={`student.${index}`}
+                              value={student.english}
+                              className="outline outline-1 p-1 w-10"
+                            />
+                            <Field
+                              name={`student.${index}`}
+                              value={student.science}
+                              className="outline outline-1 p-1 w-10"
+                            />
+                            <Field
+                              name={`student.${index}`}
+                              value={student.sst}
+                              className="outline outline-1 p-1 w-10"
+                            />
+                            <Field
+                              name={`student.${index}`}
+                              value={student.average}
+                              className="outline outline-1 p-1 w-10"
+                            />
+                            <Field
+                              name={`student.${index}`}
+                              value={student.grade}
+                              className="outline outline-1 p-1 w-10"
+                            />
+                            {/* <div>
+                              <button
+                                type="button"
+                                onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                              >
+                                -
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                              >
+                                +
+                              </button>
+                            </div> */}
+                          </div>
+                        ))
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => arrayHelpers.push("")}
+                        >
+                          {/* show this when user has removed all friends from the list */}
+                          Add a friend
+                        </button>
+                      )}
+                      <div>
+                        <button type="submit">Submit</button>
+                      </div>
+                    </div>
+                  )}
+                />
+              </Form>
+            );
+          }}
+        </Formik>
+
         <Formik
           initialValues={{
             password: "changeit",

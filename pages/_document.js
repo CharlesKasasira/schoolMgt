@@ -4,20 +4,18 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        {/* <link rel="shortcut icon" href="/pole.png" /> */}
+        <link rel="shortcut icon" href="/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="true"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,700&display=swap"
           rel="stylesheet"
-        />
-        <meta
-          content="max-snippet:-1, max-image-preview:large, max-video-preview:-1"
-          name="robots"
         />
       </Head>
       <body>
