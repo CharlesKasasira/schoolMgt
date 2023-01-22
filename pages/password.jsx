@@ -4,6 +4,7 @@ import Head from "next/head";
 import { supabase } from "../utils/supabase";
 import { parseCookies } from "../utils/parseCookies";
 import { Formik, Form } from "formik";
+import Spinner from "../components/Spinner";
 
 function ResetPassword() {
   const [email, setEmail] = useState("");

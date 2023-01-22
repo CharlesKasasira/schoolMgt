@@ -1,7 +1,7 @@
 import SideMenu from "./SideMenu";
 import Head from "next/head";
 
-function Layout({ children, ...customProps }) {
+function Layout({ children, role, ...customProps }) {
   const meta = {
     title: "School",
     description: "School Management system.",
@@ -18,7 +18,7 @@ function Layout({ children, ...customProps }) {
       </Head>
       <main className="flex w-screen h-screen">
         <aside className="h-screen w-52 bg-[#fafcfe]">
-          <SideMenu role="admin" />
+          <SideMenu />
         </aside>
         <section className="px-10 pt-4 flex-grow">{children}</section>
       </main>
