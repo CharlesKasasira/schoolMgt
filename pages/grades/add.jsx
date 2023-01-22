@@ -5,8 +5,30 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { supabase } from "../../utils/supabase";
 import { parseCookies } from "../../utils/parseCookies";
+import { useState } from "react";
 
 function AddGrades({ students }) {
+  console.log(students);
+  const studentInitial = students.map((student) => {
+    const obj = {
+      uuid: student.id,
+      first_name: student.first_name,
+      last_name: student.last_name,
+      math: "",
+      math: "",
+      english: "",
+      science: "",
+      average: "",
+      grade: "",
+      sst: "",
+      term: "",
+      set: "",
+      year: "",
+    };
+    return obj;
+  });
+  console.log("studentInitial :", studentInitial);
+
   const initialValues = [
     {
       uuid: "Charles Kasasira",
@@ -23,14 +45,29 @@ function AddGrades({ students }) {
       set: "",
       year: "",
     },
+    {
+      uuid: "Joseph Okello",
+      first_name: "Joseph",
+      last_name: "Okello",
+      math: "",
+      math: "",
+      english: "",
+      science: "",
+      average: "",
+      grade: "",
+      sst: "",
+      term: "",
+      set: "",
+      year: "",
+    },
   ];
+
   return (
     <Layout title="Add Grades - School">
-      <ToastContainer />
       <Heading title="Add Grades" tagline="Register a new exam set" />
       <section className="mt-10 px-10 pt-5 text-md text-[#555b6d]">
         <Formik
-          initialValues={{ students: initialValues }}
+          initialValues={{ students: studentInitial }}
           onSubmit={(values) => {
             console.log(values);
           }}
@@ -47,62 +84,148 @@ function AddGrades({ students }) {
           }) => {
             return (
               <Form>
+                <div className="flex flex-col my-3">
+                  <label htmlFor="set" className="mb-1 w-full">
+                    Examination Set
+                  </label>
+                  <div className="w-12/12 md:w-8/12">
+                    <select
+                      name=""
+                      id=""
+                      className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                    >
+                      <option value="">Select</option>
+                      <option value="bot">B.O.T</option>
+                      <option value="mot">M.O.T</option>
+                      <option value="eot">E.O.T</option>
+                      <option value="mocks">Mocks</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex flex-col my-3">
+                  <label htmlFor="" className="mb-1 w-4/12 md:w-2/12">
+                    Term
+                  </label>
+                  <div className="w-12/12 md:w-8/12 flex gap-2">
+                    <select
+                      name=""
+                      id=""
+                      className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                    >
+                      <option value="">Select Term</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    <input
+                      type="text"
+                      name="text"
+                      className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                      placeholder="Enter year"
+                      required
+                    />
+                  </div>
+                </div>
                 <FieldArray
-                  // name="students"
+                  name="students"
                   render={(arrayHelpers) => (
                     <div className="">
+                      <div className="flex mb-2 items-end w-full">
+                        <label htmlFor="" className="md:w-1/3">
+                          Student Name
+                        </label>
+                        <div className="w-2/3 flex justify-between">
+                          <label htmlFor="" className="p-1 w-10">
+                            Math
+                          </label>
+                          <label htmlFor="" className="p-1 w-10">
+                            Eng
+                          </label>
+                          <label htmlFor="" className="p-1 w-10">
+                            Sci
+                          </label>
+                          <label htmlFor="" className="p-1 w-10">
+                            Sst
+                          </label>
+                          <label htmlFor="" className="p-1 w-10">
+                            avg
+                          </label>
+                          <label htmlFor="" className="p-1 w-10">
+                            Gra
+                          </label>
+                        </div>
+                      </div>
                       {values.students && values.students.length > 0 ? (
                         values.students.map((student, index) => (
-                          <div key={index} className="flex justify-between">
-                            <label htmlFor="">
+                          <div
+                            key={index}
+                            className="flex outline outline-1 outline-gray-300 py-2 px-2 rounded-sm mb-2 items-end w-full"
+                          >
+                            <label htmlFor="" className="md:w-1/3">
                               {student.first_name + " " + student.last_name}
                             </label>
-                            <Field
-                              name={`math-${index}`}
-                              value={student.math}
-                              className="outline outline-1 p-1 w-10 rounded-sm"
-                              onChange={handleChange(`math-${index}`)}
-                              onBlur={handleBlur(`math-${index}`)}
-                            />
-                            <Field
-                              name={`student.${index}`}
-                              value={student.english}
-                              className="outline outline-1 p-1 w-10"
-                            />
-                            <Field
-                              name={`student.${index}`}
-                              value={student.science}
-                              className="outline outline-1 p-1 w-10"
-                            />
-                            <Field
-                              name={`student.${index}`}
-                              value={student.sst}
-                              className="outline outline-1 p-1 w-10"
-                            />
-                            <Field
-                              name={`student.${index}`}
-                              value={student.average}
-                              className="outline outline-1 p-1 w-10"
-                            />
-                            <Field
-                              name={`student.${index}`}
-                              value={student.grade}
-                              className="outline outline-1 p-1 w-10"
-                            />
-                            {/* <div>
-                              <button
-                                type="button"
-                                onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                              >
-                                -
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
-                              >
-                                +
-                              </button>
-                            </div> */}
+                            <div className="w-2/3 flex justify-between">
+                              <Field
+                                name={`students[${index}].math`}
+                                value={students[index].math}
+                                className="outline outline-1 p-1 w-10 rounded-sm"
+                                onChange={handleChange(
+                                  `students[${index}].math`
+                                )}
+                                onBlur={handleBlur(`students[${index}].math`)}
+                              />
+                              <Field
+                                name={`students[${index}].english`}
+                                value={students[index].english}
+                                className="outline outline-1 p-1 w-10 rounded-sm"
+                                onChange={handleChange(
+                                  `students[${index}].english`
+                                )}
+                                onBlur={handleBlur(
+                                  `students[${index}].english`
+                                )}
+                              />
+                              <Field
+                                name={`students[${index}].science`}
+                                value={students[index].science}
+                                className="outline outline-1 p-1 w-10 rounded-sm"
+                                onChange={handleChange(
+                                  `students[${index}].science`
+                                )}
+                                onBlur={handleBlur(
+                                  `students[${index}].science`
+                                )}
+                              />
+                              <Field
+                                name={`students[${index}].sst`}
+                                value={students[index].sst}
+                                className="outline outline-1 p-1 w-10 rounded-sm"
+                                onChange={handleChange(
+                                  `students[${index}].sst`
+                                )}
+                                onBlur={handleBlur(`students[${index}].sst`)}
+                              />
+                              <Field
+                                name={`students[${index}].average`}
+                                value={students[index].average}
+                                className="outline outline-1 p-1 w-10 rounded-sm"
+                                onChange={handleChange(
+                                  `students[${index}].average`
+                                )}
+                                onBlur={handleBlur(
+                                  `students[${index}].average`
+                                )}
+                              />
+                              <Field
+                                name={`students[${index}].grade`}
+                                value={students[index].grade}
+                                className="outline outline-1 p-1 w-10 rounded-sm"
+                                onChange={handleChange(
+                                  `students[${index}].grade`
+                                )}
+                                onBlur={handleBlur(`students[${index}].grade`)}
+                              />
+                            </div>
                           </div>
                         ))
                       ) : (
@@ -110,12 +233,16 @@ function AddGrades({ students }) {
                           type="button"
                           onClick={() => arrayHelpers.push("")}
                         >
-                          {/* show this when user has removed all friends from the list */}
-                          Add a friend
+                          Add Student
                         </button>
                       )}
-                      <div>
-                        <button type="submit">Submit</button>
+                      <div className="w-full">
+                        <button
+                          type="submit"
+                          className="text-white py-2 px-4 my-2 mt-4  bg-[#10a37f] hover:bg-[#0e8c75] outline outline-1 outline-[#0e927a] gap-2 w-full rounded-sm"
+                        >
+                          Submit
+                        </button>
                       </div>
                     </div>
                   )}
@@ -125,7 +252,7 @@ function AddGrades({ students }) {
           }}
         </Formik>
 
-        <Formik
+        {/* <Formik
           initialValues={{
             password: "changeit",
             first_name: "",
@@ -288,37 +415,37 @@ function AddGrades({ students }) {
                             </td>
                             <td className="py-4 pl-2 text-left text-gray-500">
                               <input
-                                className="outline outline-1 p-1 w-10"
+                                className="outline outline-1 p-1 w-10 rounded-sm"
                                 type="text"
                               />
                             </td>
                             <td className="py-4 pl-2 text-left text-gray-500">
                               <input
-                                className="outline outline-1 p-1 w-10"
+                                className="outline outline-1 p-1 w-10 rounded-sm"
                                 type="text"
                               />
                             </td>
                             <td className="py-4 pl-2 text-left text-gray-500">
                               <input
-                                className="outline outline-1 p-1 w-10"
+                                className="outline outline-1 p-1 w-10 rounded-sm"
                                 type="text"
                               />
                             </td>
                             <td className="py-4 pl-2 text-left text-gray-500">
                               <input
-                                className="outline outline-1 p-1 w-10"
+                                className="outline outline-1 p-1 w-10 rounded-sm"
                                 type="text"
                               />
                             </td>
                             <td className="py-4 pl-2 text-left text-gray-500">
                               <input
-                                className="outline outline-1 p-1 w-10"
+                                className="outline outline-1 p-1 w-10 rounded-sm"
                                 type="text"
                               />
                             </td>
                             <td className="py-4 pl-2 text-left text-gray-500">
                               <input
-                                className="outline outline-1 p-1 w-10"
+                                className="outline outline-1 p-1 w-10 rounded-sm"
                                 type="text"
                               />
                             </td>
@@ -339,7 +466,7 @@ function AddGrades({ students }) {
               </Form>
             );
           }}
-        </Formik>
+        </Formik> */}
       </section>
     </Layout>
   );
