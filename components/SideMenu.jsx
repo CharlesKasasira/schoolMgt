@@ -6,7 +6,7 @@ import Router from "next/router";
 import Link from "next/link";
 import { useAuth } from "../utils/auth";
 import { useCookies } from "react-cookie";
-import { HiOutlineLogout } from 'react-icons/hi'
+import { HiOutlineLogout } from "react-icons/hi";
 
 function SideMenu({ person }) {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -52,7 +52,17 @@ function SideMenu({ person }) {
       </ul>
 
       {user?.user_metadata.claim === "student" ? (
-        <p className="absolute bottom-2 cursor-pointer text-gray-500 w-[80%] mx-4 px-3 py-2 flex items-center gap-1"><HiOutlineLogout />Log out</p>
+        <p
+          className="absolute bottom-2 cursor-pointer text-gray-500 w-[80%] mx-4 px-3 py-2 flex items-center gap-1"
+          onClick={() => {
+            signOut();
+          }}
+        >
+          <Link href="/login" className="flex items-center gap-1">
+            <HiOutlineLogout />
+            Log out
+          </Link>
+        </p>
       ) : (
         <div className="outline outline-1 outline-gray-300 rounded mx-4 px-3 py-2 bottom-2 absolute w-[80%] flex flex-col items-center gap-2">
           <div className="w-10 h-10 rounded-full bg-gray-400 flex justify-center items-center text-xs text-white">
