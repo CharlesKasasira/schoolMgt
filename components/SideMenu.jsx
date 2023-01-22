@@ -14,26 +14,31 @@ function SideMenu({ person }) {
 
   const { user, signOut } = useAuth();
 
+  // console.log(user);
+  // console.log(person)
+
   return (
     <div className="w-full h-full relative">
       {user?.user_metadata.claim === "student" ? (
-        <header className="flex justify-center items-center bg-[#2c3a47] text-white h-28 flex-col">
-          <div className="w-10 h-10 rounded-lg bg-gray-400 flex justify-center items-center text-xs text-white">
+        <header className="flex justify-center items-center bg-[#2c3a47] text-white h-32 flex-col">
+          <div className="w-12 h-12 rounded-lg bg-gray-400 flex justify-center items-center text-xs text-white">
             {user?.user_metadata?.last_name[0].toUpperCase() +
               user?.user_metadata?.first_name[0].toUpperCase()}
           </div>
-          <div className="flex-col justify-center items-center">
-            <p className="text-lg font-medium">
-              {user?.user_metadata?.first_name} {user?.user_metadata?.last_name}
+          <div className="flex-col items-center mt-2">
+            <p className="text-lg text-center font-medium">
+              {user?.user_metadata?.first_name.toUpperCase()}{" "}
+              {user?.user_metadata?.last_name.toUpperCase()}
             </p>
-            <p className="text-xs text-gray-400 uppercase">
-              {user?.user_metadata?.claim}
+            <p className="text-xs text-center text-gray-300 uppercase">
+              {user?.user_metadata?.claim === "student" &&
+                `Student No. ${user?.student_number}`}
             </p>
           </div>
         </header>
       ) : (
         <header className="h-12 flex justify-center items-center">
-          <p className="text-lg font-medium">School</p>
+          <p className="text-lg font-medium">Passion Care Schools</p>
         </header>
       )}
 
