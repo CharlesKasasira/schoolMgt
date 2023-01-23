@@ -8,8 +8,6 @@ function Chat({ schoolTeachers }) {
   const [talkTo, setTalkTo] = useState([]);
   const { user } = useAuth();
 
-  console.log(user?.claim);
-
   useEffect(() => {
     getUsers();
 
@@ -26,8 +24,6 @@ function Chat({ schoolTeachers }) {
       setTalkTo(schoolStudents);
     }
   };
-
-  console.log(talkTo);
 
   return (
     <div
