@@ -1,8 +1,33 @@
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../utils/auth";
+import { supabase } from "../utils/supabase";
 
 function Chat({ schoolTeachers }) {
   const [upMessages, setUpMessages] = useState(false);
+  const [talkTo, setTalkTo] = useState([]);
+  const { user } = useAuth();
+
+  console.log(user?.claim);
+
+  useEffect(() => {
+    getUsers();
+
+    return () => {};
+  }, []);
+
+  const getUsers = async () => {
+    if (user && user?.claim === "student") {
+      const { data: schoolStudents, error } = await supabase
+        .from("usermeta")
+        .select("*")
+        .eq("claim", "student");
+
+      setTalkTo(schoolStudents);
+    }
+  };
+
+  console.log(talkTo);
 
   return (
     <div
@@ -41,7 +66,18 @@ function Chat({ schoolTeachers }) {
               id=""
             />
           </div>
-          <div className="outline-1 h-full"></div>
+          <div className="h-full overflow-y-scroll px-3 py-2">
+            {talkTo &&
+              talkTo.map((talk, index) => (
+                <div key={index} className="px-2 py-2 flex items-center gap-2 mb-2 border-b-[1px]">
+                  <div className="w-10 h-10 rounded-full bg-gray-400 flex justify-center items-center text-xs text-white">
+                    {talk.first_name[0].toUpperCase() +
+                      talk.last_name[0].toUpperCase()}
+                  </div>
+                  <p>{talk.first_name + " " + talk.last_name}</p>
+                </div>
+              ))}
+          </div>
         </div>
       )}
     </div>
