@@ -6,11 +6,14 @@ import ReportModal from "../components/ReportModal";
 import { IoIosArrowDown } from "react-icons/io";
 import { parseCookies } from "../utils/parseCookies";
 import { ImFilesEmpty } from "react-icons/im";
+import { useAuth } from "../utils/auth";
 
 function Reports({ person, reports }) {
   const [showReport, setShowReport] = useState(false);
   const [report, setReport] = useState(null);
   const [myReports, setMyReports] = useState([]);
+
+  const { user } = useAuth();
 
   useEffect(() => {
     getReports();
@@ -35,7 +38,12 @@ function Reports({ person, reports }) {
     <Layout title="Report - School">
       <Heading title="Reports" tagline="Mange your reports" />
       {showReport && (
-        <ReportModal setShowReport={setShowReport} report={report} />
+        <ReportModal
+          setShowReport={setShowReport}
+          showReport={showReport}
+          report={report}
+          student={user}
+        />
       )}
       <div className="">
         {reports && reports.length > 0 ? (
@@ -49,7 +57,7 @@ function Reports({ person, reports }) {
               }}
             >
               <p>
-                Term {report.term} {report.year}
+                Term {report.term} {report.set?.toUpperCase()} {report.year}
               </p>
               <IoIosArrowDown />
             </div>

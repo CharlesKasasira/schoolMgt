@@ -17,7 +17,7 @@ function SET({ person, reports, schoolStudents }) {
   const [report, setReport] = useState(null);
   const [myReports, setMyReports] = useState([]);
 
-  console.log("showReport: ",showReport)
+  console.log("showReport: ", showReport);
 
   return (
     <Layout title="Bot 1 2023 - School">
@@ -61,8 +61,8 @@ function SET({ person, reports, schoolStudents }) {
               {showReport && (
                 <ReportModal
                   setShowReport={setShowReport}
-                  report={report}
                   showReport={showReport}
+                  report={report}
                   student={
                     schoolStudents.filter(
                       (student) => student.id === exam.student

@@ -13,7 +13,7 @@ function ReportModal({ setShowReport, showReport, report, student }) {
         <div>
           <div className="flex items-center justify-between border-b-[1px] px-4">
             <h1 className="text-center font-bold py-2">
-              Term {report.term} {report.year} Report
+              Term {report.term} {report.set?.toUpperCase()} {report.year} Report
             </h1>
             <AiFillCloseCircle
               size={25}
