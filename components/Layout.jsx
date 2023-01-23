@@ -1,5 +1,6 @@
 import SideMenu from "./SideMenu";
 import Head from "next/head";
+import Chat from "./Chat";
 
 function Layout({ children, role, ...customProps }) {
   const meta = {
@@ -16,6 +17,7 @@ function Layout({ children, role, ...customProps }) {
         <meta content={meta.description} name="description" />
         <meta property="og:type" content={meta.type} />
       </Head>
+      <Chat />
       <main className="flex w-screen h-screen">
         <aside className="h-screen w-60">
           <SideMenu />
