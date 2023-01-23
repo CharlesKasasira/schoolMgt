@@ -20,7 +20,7 @@ function Layout({ children, role, ...customProps }) {
         <aside className="h-screen w-60">
           <SideMenu />
         </aside>
-        <section className="px-10 pt-4 flex-grow bg-[#f0f2f5]">
+        <section className="px-10 pt-4 flex-grow bg-[#f0f2f5] overflow-y-scroll">
           {children}
         </section>
       </main>

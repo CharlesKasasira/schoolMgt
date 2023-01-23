@@ -4,6 +4,9 @@ import Heading from "../components/Heading";
 import AdminDash from "../components/AdminDash";
 import { parseCookies } from "../utils/parseCookies";
 import { supabase } from "../utils/supabase";
+import Calendar from "../components/Calendar";
+import Graph from "../components/Graph";
+import Doughnut from "../components/Doughnut";
 
 function Dashboard({ person, schoolStudents, schoolTeachers }) {
   if (JSON.parse(person.user)?.user?.user_metadata.claim === "admin") {
@@ -14,6 +17,16 @@ function Dashboard({ person, schoolStudents, schoolTeachers }) {
           students={schoolStudents.length}
           teachers={schoolTeachers.length}
         />
+        <section className="mt-10 flex gap-5 lg:gap-10">
+          <Doughnut
+            students={schoolStudents.length}
+            teachers={schoolTeachers.length}
+          />
+          <Calendar />
+        </section>
+        <section className="mt-10 mb-10">
+          <Graph />
+        </section>
       </Layout>
     );
   }

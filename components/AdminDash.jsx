@@ -5,7 +5,7 @@ import { BsCollection } from "react-icons/bs";
 
 function AdminDash({ students, teachers }) {
   return (
-    <div className="flex justify-around gap-5 lg:gap-10">
+    <div className="flex justify-around gap3 lg:gap-6">
       <Card
         title="Total Students"
         stat={students}
