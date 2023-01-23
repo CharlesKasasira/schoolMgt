@@ -8,10 +8,14 @@ import { parseCookies } from "../../utils/parseCookies";
 import { useState } from "react";
 
 function AddGrades({ students }) {
-  console.log(students);
+  const [set, setSet] = useState("");
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [term, setTerm] = useState("");
+  const [studentClass, setClass] = useState("");
+  // const []
   const studentInitial = students.map((student) => {
     const obj = {
-      uuid: student.id,
+      student: student.id,
       first_name: student.first_name,
       last_name: student.last_name,
       math: "",
@@ -21,17 +25,14 @@ function AddGrades({ students }) {
       average: "",
       grade: "",
       sst: "",
-      term: "",
-      set: "",
-      year: "",
     };
     return obj;
   });
-  console.log("studentInitial :", studentInitial);
+  // console.log("studentInitial :", studentInitial);
 
   const initialValues = [
     {
-      uuid: "Charles Kasasira",
+      student: "Charles Kasasira",
       first_name: "Charles",
       last_name: "Kasasira",
       math: "",
@@ -46,7 +47,7 @@ function AddGrades({ students }) {
       year: "",
     },
     {
-      uuid: "Joseph Okello",
+      student: "Joseph Okello",
       first_name: "Joseph",
       last_name: "Okello",
       math: "",
@@ -68,8 +69,29 @@ function AddGrades({ students }) {
       <section className="mt-10 px-10 pt-5 text-md text-[#555b6d]">
         <Formik
           initialValues={{ students: studentInitial }}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={async (values) => {
+            // console.log(values);
+
+            const { data } = await supabase
+              .from("exams")
+              .insert([
+                { set: set, year: year, term: term, class: studentClass },
+              ]);
+
+            if (data) {
+              // console.log(data);
+              values.students.forEach(async (student, index) => {
+                const { data: reportData, error } = await supabase
+                  .from("report")
+                  .insert([{ term, set, year, exam: data[0].id, ...student }]);
+                // console.log({ term, set, year, exam: data[0].id, ...student });
+
+                if (reportData) {
+                } else {
+                  console.log(error);
+                }
+              });
+            }
           }}
         >
           {({
@@ -84,22 +106,51 @@ function AddGrades({ students }) {
           }) => {
             return (
               <Form>
-                <div className="flex flex-col my-3">
-                  <label htmlFor="set" className="mb-1 w-full">
-                    Examination Set
-                  </label>
-                  <div className="w-12/12 md:w-8/12">
-                    <select
-                      name=""
-                      id=""
-                      className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
-                    >
-                      <option value="">Select</option>
-                      <option value="bot">B.O.T</option>
-                      <option value="mot">M.O.T</option>
-                      <option value="eot">E.O.T</option>
-                      <option value="mocks">Mocks</option>
-                    </select>
+                <div className="flex w-full">
+                  <div className="flex flex-col my-3 w-full">
+                    <label htmlFor="set" className="mb-1 w-full">
+                      Examination Set
+                    </label>
+                    <div className="w-12/12 md:w-8/12">
+                      <select
+                        name=""
+                        id=""
+                        className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                        value={set}
+                        onChange={(event) => setSet(event.target.value)}
+                        required
+                      >
+                        <option value="">Select</option>
+                        <option value="bot">B.O.T</option>
+                        <option value="mot">M.O.T</option>
+                        <option value="eot">E.O.T</option>
+                        <option value="mocks">Mocks</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex flex-col my-3 w-full">
+                    <label htmlFor="set" className="mb-1 w-full">
+                      Class
+                    </label>
+                    <div className="w-12/12 md:w-8/12">
+                      <select
+                        name=""
+                        id=""
+                        className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                        value={studentClass}
+                        onChange={(event) => setClass(event.target.value)}
+                        required
+                      >
+                        <option value="">Select</option>
+                        <option value="1">P1</option>
+                        <option value="2">P2</option>
+                        <option value="3">P3</option>
+                        <option value="4">P4</option>
+                        <option value="5">P5</option>
+                        <option value="6">P6</option>
+                        <option value="7">P7</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col my-3">
@@ -111,6 +162,9 @@ function AddGrades({ students }) {
                       name=""
                       id=""
                       className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
+                      value={term}
+                      onChange={(event) => setTerm(event.target.value)}
+                      required
                     >
                       <option value="">Select Term</option>
                       <option value="1">One</option>
@@ -119,9 +173,11 @@ function AddGrades({ students }) {
                     </select>
                     <input
                       type="text"
-                      name="text"
+                      name="year"
                       className="py-2 px-2 bg-transparent  outline outline-1 outline-[#121212] rounded w-full"
                       placeholder="Enter year"
+                      value={year}
+                      onChange={(event) => setYear(event.target.value)}
                       required
                     />
                   </div>

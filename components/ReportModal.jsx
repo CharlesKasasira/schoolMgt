@@ -1,7 +1,9 @@
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsPrinterFill } from "react-icons/bs";
 
-function ReportModal({ setShowReport, report }) {
+function ReportModal({ setShowReport, showReport, report, student }) {
+  console.log("my report:", report);
+  console.log("my report:", student);
 
   return (
     <div
@@ -17,7 +19,7 @@ function ReportModal({ setShowReport, report }) {
               size={25}
               className="cursor-pointer"
               onClick={() => {
-                setShowReport(false);
+                setShowReport(!showReport);
               }}
             />
           </div>
@@ -29,15 +31,17 @@ function ReportModal({ setShowReport, report }) {
             <div className="px-4 py-4">
               <div className="flex">
                 <p className="w-1/3 font-semibold">Full Name:</p>
-                <p>Kasasira Charles</p>
+                <p>
+                  {student.first_name} {student.last_name}
+                </p>
               </div>
               <div className="flex">
                 <p className="w-1/3 font-semibold">Gender:</p>
-                <p>Male</p>
+                <p>{student.gender}</p>
               </div>
               <div className="flex">
                 <p className="w-1/3 font-semibold">Student Number:</p>
-                <p>21000</p>
+                <p>{student.student_number}</p>
               </div>
               <div className="flex">
                 <p className="w-1/3 font-semibold">Year:</p>
@@ -45,7 +49,7 @@ function ReportModal({ setShowReport, report }) {
               </div>
               <div className="flex">
                 <p className="w-1/3 font-semibold">Term:</p>
-                <p>{report.term}</p>
+                <p>{report.term + " " + report.set}</p>
               </div>
             </div>
             <div className="px-4 py-4">
