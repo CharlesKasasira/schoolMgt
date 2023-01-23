@@ -22,6 +22,17 @@ function Chat({ schoolTeachers }) {
         .eq("claim", "student");
 
       setTalkTo(schoolStudents);
+    } else if (user && user?.claim === "teacher") {
+      const { data: schoolStudents, error } = await supabase
+        .from("usermeta")
+        .select("*")
+        .filter("claim", "in", '("teacher")');
+
+      setTalkTo(schoolStudents);
+    } else if (user && user?.claim === "admin") {
+      const { data, error } = await supabase.from("usermeta").select("*");
+
+      setTalkTo(data);
     }
   };
 
@@ -65,7 +76,10 @@ function Chat({ schoolTeachers }) {
           <div className="h-full overflow-y-scroll px-3 py-2">
             {talkTo &&
               talkTo.map((talk, index) => (
-                <div key={index} className="px-2 py-2 flex items-center gap-2 mb-2 border-b-[1px]">
+                <div
+                  key={index}
+                  className="px-2 py-2 flex items-center gap-2 mb-2 border-b-[1px] cursor-pointer"
+                >
                   <div className="w-10 h-10 rounded-full bg-gray-400 flex justify-center items-center text-xs text-white">
                     {talk.first_name[0].toUpperCase() +
                       talk.last_name[0].toUpperCase()}

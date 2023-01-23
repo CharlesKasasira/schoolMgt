@@ -43,8 +43,11 @@ function Grades({ person, exams }) {
               className="outline outline-1 outline-gray-300 px-3 py-2 cursor-pointer flex justify-between items-center bg-white"
               onClick={() => {}}
             >
-              <Link href={`/grades/set/${exam.id}`} className="cursor-pointer w-full">
-                Term {exam.term} {exam.set} {exam.year}
+              <Link
+                href={`/grades/set/${exam.id}`}
+                className="cursor-pointer w-full"
+              >
+                Term {exam.term} {exam.set?.toUpperCase()} {exam.year}
               </Link>
               <IoIosArrowDown />
             </div>
