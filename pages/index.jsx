@@ -9,7 +9,7 @@ import Graph from "../components/Graph";
 import Doughnut from "../components/Doughnut";
 
 function Dashboard({ person, schoolStudents, schoolTeachers }) {
-  if (JSON.parse(person.user)?.user?.user_metadata.claim === "admin") {
+  // if (JSON.parse(person.user)?.user?.user_metadata.claim === "admin") {
     return (
       <Layout title="Dashboard - School">
         <Heading title="Dashboard" tagline="Welcome to the School Management" />
@@ -29,7 +29,7 @@ function Dashboard({ person, schoolStudents, schoolTeachers }) {
         </section>
       </Layout>
     );
-  }
+  // }
 }
 
 export default Dashboard;

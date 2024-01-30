@@ -17,7 +17,7 @@ function AddTeacher() {
             password: "changeit",
             first_name: "",
             last_name: "",
-            claim: "admin",
+            claim: "teacher",
             email: "",
             gender: "",
             nationality: "",
@@ -29,7 +29,7 @@ function AddTeacher() {
               email,
               first_name,
               last_name,
-              contact_number,
+              phone_number,
               password,
               gender,
               nationality,
@@ -42,7 +42,7 @@ function AddTeacher() {
                   first_name: first_name,
                   last_name: last_name,
                   email: email,
-                  phone_number: "256" + contact_number,
+                  phone_number: "256" + phone_number,
                   claim: "teacher",
                   gender: gender,
                   nationality: nationality,
@@ -181,9 +181,9 @@ function AddTeacher() {
                       name="telephone_number"
                       placeholder="Telephone Number"
                       className=" py-2 px-2 ml-16 bg-transparent flex-grow focus:outline-none"
-                      onChange={handleChange("contact_number")}
-                      onBlur={handleBlur("contact_number")}
-                      value={values.contact_number}
+                      onChange={handleChange("phone_number")}
+                      onBlur={handleBlur("phone_number")}
+                      value={values.phone_number}
                       required
                     />
                     <select

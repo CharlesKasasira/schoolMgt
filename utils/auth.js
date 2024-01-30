@@ -10,9 +10,7 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(supabase.auth.session());
   const [user, setUser] = useState(supabase.auth.user());
-  const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [cookie, setCookie, removeCookie] = useCookies(["user"]);
   const [welcome, setWelcome] = useState(true);
 

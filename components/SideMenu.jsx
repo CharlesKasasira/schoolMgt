@@ -1,21 +1,13 @@
 import { menuData } from "../utils/menuData";
 import NavLink from "./NavLink";
 import { useState } from "react";
-import { supabase } from "../utils/supabase";
-import Router from "next/router";
 import Link from "next/link";
 import { useAuth } from "../utils/auth";
-import { useCookies } from "react-cookie";
 import { HiOutlineLogout } from "react-icons/hi";
 
 function SideMenu({ person }) {
   const [activeIndex, setActiveIndex] = useState(null);
-  const [cookie, setCookie, removeCookie] = useCookies(["user"]);
-
   const { user, signOut } = useAuth();
-
-  // console.log(user);
-  // console.log(person)
 
   return (
     <div className="w-full h-full relative">

@@ -26,11 +26,12 @@ function Chat({ schoolTeachers }) {
       const { data: schoolStudents, error } = await supabase
         .from("usermeta")
         .select("*")
-        .filter("claim", "in", '("teacher")');
+        .eq("claim", "student");
+        // .filter("claim", "in", '("teacher")');
 
       setTalkTo(schoolStudents);
     } else if (user && user?.claim === "admin") {
-      const { data, error } = await supabase.from("usermeta").select("*");
+      const { data, error } = await supabase.from("usermeta").select("*").in('claim', ['student', 'teacher', 'admin']);
 
       setTalkTo(data);
     }
@@ -82,7 +83,7 @@ function Chat({ schoolTeachers }) {
                 >
                   <div className="w-10 h-10 rounded-full bg-gray-400 flex justify-center items-center text-xs text-white">
                     {talk.first_name[0].toUpperCase() +
-                      talk.last_name[0].toUpperCase()}
+                     talk.last_name[0].toUpperCase()}
                   </div>
                   <p>{talk.first_name + " " + talk.last_name}</p>
                 </div>

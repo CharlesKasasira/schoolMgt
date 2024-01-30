@@ -2,7 +2,6 @@ import Layout from "../../components/Layout";
 import Heading from "../../components/Heading";
 import { supabase } from "../../utils/supabase";
 import { parseCookies } from "../../utils/parseCookies";
-import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
 import { useRouter } from "next/router";
