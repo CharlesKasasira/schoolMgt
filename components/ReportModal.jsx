@@ -2,8 +2,20 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { BsPrinterFill } from "react-icons/bs";
 
 function ReportModal({ setShowReport, showReport, report, student }) {
-  console.log("my report:", report);
-  console.log("my report:", student);
+
+  const getRemark = (score) => {
+    if (score >= 0 && score <= 49) {
+      return 'Try harder';
+    } else if (score >= 50 && score <= 59) {
+      return 'Average';
+    } else if (score >= 60 && score <= 79) {
+      return 'Good';
+    } else if (score >= 80 && score <= 100) {
+      return 'Very Good';
+    } else {
+      return 'Invalid score';
+    }
+  };
 
   return (
     <div
@@ -65,22 +77,22 @@ function ReportModal({ setShowReport, showReport, report, student }) {
                   <tr>
                     <td className="text-left px-2 py-1">Science</td>
                     <td className="text-left px-2 py-1">{report.science}</td>
-                    <td className="text-left px-2 py-1">Good work</td>
+                    <td className="text-left px-2 py-1">{getRemark(report.science)}</td>
                   </tr>
                   <tr>
                     <td className="text-left px-2 py-1">Math</td>
                     <td className="text-left px-2 py-1">{report.math}</td>
-                    <td className="text-left px-2 py-1">Good work</td>
+                    <td className="text-left px-2 py-1">{getRemark(report.math)}</td>
                   </tr>
                   <tr>
                     <td className="text-left px-2 py-1">Social Studies</td>
                     <td className="text-left px-2 py-1">{report.sst}</td>
-                    <td className="text-left px-2 py-1">Good work</td>
+                    <td className="text-left px-2 py-1">{getRemark(report.sst)}</td>
                   </tr>
                   <tr>
                     <td className="text-left px-2 py-1">English</td>
                     <td className="text-left px-2 py-1">{report.english}</td>
-                    <td className="text-left px-2 py-1">Good work</td>
+                    <td className="text-left px-2 py-1">{getRemark(report.english)}</td>
                   </tr>
                 </tbody>
               </table>
