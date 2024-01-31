@@ -45,9 +45,7 @@ function Attendance() {
     ]);
     if (data) {
       toast.success("checked in", { position: "top-right" });
-    } else if (error) {
-      console.log(error);
-    }
+    } else if (error) {}
   };
 
   const handleCheckout = async () => {
@@ -65,14 +63,12 @@ function Attendance() {
 
     if (data) {
       toast.success("checked in", { position: "top-right" });
-    } else if (error) {
-      console.log(error);
-    }
+    } else if (error) {}
   };
   return (
     <Layout title="Attendance - School">
       <Heading title="Attendance" tagline="Manage Attendance" />
-      {attendance.length === 0 ||
+      {attendance && attendance.length === 0 ||
       (attendance.length > 0 &&
         new Date().toISOString().slice(0, 10) !==
           attendance[0].checkin.slice(0, 10)) ? (

@@ -27,11 +27,8 @@ function Reports({ person, reports }) {
       .eq("student", JSON.parse(person.user).user.id)
       .order("year", { ascending: false });
     if (data) {
-      // console.log(data);
       setMyReports(data);
-    } else if (error) {
-      console.log(error);
-    }
+    } else if (error) {}
   };
 
   return (
