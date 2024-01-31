@@ -1,7 +1,8 @@
+'use client'
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsPrinterFill } from "react-icons/bs";
 
-function ReportModal({ setShowReport, showReport, report, student }) {
+function ReportModal({ setShowReport, report, student }) {
 
   const getRemark = (score) => {
     if (score >= 0 && score <= 49) {
@@ -31,7 +32,7 @@ function ReportModal({ setShowReport, showReport, report, student }) {
               size={25}
               className="cursor-pointer"
               onClick={() => {
-                setShowReport(!showReport);
+                setShowReport(false);
               }}
             />
           </div>

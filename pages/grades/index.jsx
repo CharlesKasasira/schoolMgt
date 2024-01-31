@@ -9,10 +9,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { ImFilesEmpty } from "react-icons/im";
 import Link from "next/link";
 
-function Grades({ person, exams }) {
+function Grades({ exams }) {
   const router = useRouter();
-
-  console.log("exams: ", exams);
 
   return (
     <Layout title="Grades - School">

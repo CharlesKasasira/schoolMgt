@@ -37,7 +37,6 @@ function Reports({ person, reports }) {
       {showReport && (
         <ReportModal
           setShowReport={setShowReport}
-          showReport={showReport}
           report={report}
           student={user}
         />
