@@ -96,6 +96,5 @@ export async function getServerSideProps({ req, res, params }) {
     .eq("student", JSON.parse(person.user).user.id)
     .order("year", { ascending: false });
 
-  // If there is a user, return it.
   return { props: { person, reports } };
 }

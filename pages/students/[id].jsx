@@ -19,8 +19,6 @@ function Teacher({ student }) {
   }, []);
 
   const getTeachers = async () => {
-    // const singleTeacher = teachersData.filter((teacher) => teacher.id === id);
-    // setTeacher(singleTeacher[0]);
 
     const { data, error } = await supabase
       .from("usermeta")
