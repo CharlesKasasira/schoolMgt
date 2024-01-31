@@ -8,9 +8,29 @@ import { useRouter } from "next/router";
 import { IoIosArrowDown } from "react-icons/io";
 import { ImFilesEmpty } from "react-icons/im";
 import Link from "next/link";
+import * as XLSX from 'xlsx';
 
 function Grades({ exams }) {
   const router = useRouter();
+
+  const excludeColumns = ['id'];
+
+  const exportToExcel = () => {
+    // Filter out excluded columns
+    const filteredData = exams.map((row) =>
+      Object.fromEntries(
+        Object.entries(row).filter(([key]) => !excludeColumns.includes(key))
+      )
+    );
+
+    // Create worksheet and workbook
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
+
+    // Save the workbook as an Excel file
+    XLSX.writeFile(workbook, 'examinations.xlsx');
+  };
 
   return (
     <Layout title="Grades - School">
@@ -18,7 +38,7 @@ function Grades({ exams }) {
       <section className="flex justify-end items-center my-10 gap-2">
         <button
           className="py-2 px-4 my-2 hover:text-[#0d846e] outline outline-1 outline-gray-800 flex items-center gap-2 rounded text-sm"
-          onClick={() => router.push("/teachers/add")}
+          onClick={exportToExcel}
         >
           <AiOutlineCloudDownload size={22} />
           Export
