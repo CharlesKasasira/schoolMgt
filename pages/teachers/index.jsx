@@ -11,6 +11,7 @@ import { AiOutlineInfoCircle, AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import { supabase } from "../../utils/supabase";
 import { parseCookies } from "../../utils/parseCookies";
+import * as XLSX from 'xlsx';
 
 function TeachersList({ schoolTeachers }) {
   const router = useRouter();
@@ -18,6 +19,25 @@ function TeachersList({ schoolTeachers }) {
   const [clickedIndex, setClickedIndex] = useState(null);
   const [showContext, setShowContext] = useState(false);
   const [openToggle, setOpenToggle] = useState(false);
+
+  const excludeColumns = ['id', 'updated_at', 'avatar_url', 'claim'];
+
+  const exportToExcel = () => {
+    // Filter out excluded columns
+    const filteredData = schoolTeachers.map((row) =>
+      Object.fromEntries(
+        Object.entries(row).filter(([key]) => !excludeColumns.includes(key))
+      )
+    );
+
+    // Create worksheet and workbook
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
+
+    // Save the workbook as an Excel file
+    XLSX.writeFile(workbook, 'teachers.xlsx');
+  };
 
   useEffect(() => {
     fetchTeachers();
@@ -37,21 +57,13 @@ function TeachersList({ schoolTeachers }) {
     }
   };
 
-  // if (window !== undefined) {
-  //   window.onclick = (event) => {
-  //     if (!event.target.matches(".sharebtn")) {
-  //       setShowContext(false);
-  //     }
-  //   };
-  // }
-
   return (
     <Layout title="Teacher - School">
       <Heading title="Teachers" tagline="Manage teachers" />
       <section className="flex justify-end items-center my-10 gap-2">
         <button
           className="py-2 px-4 my-2 hover:text-[#0d846e] outline outline-1 outline-gray-800 flex items-center gap-2 rounded text-sm"
-          onClick={() => router.push("/teachers/add")}
+          onClick={exportToExcel}
         >
           <AiOutlineCloudDownload size={22} />
           Export
